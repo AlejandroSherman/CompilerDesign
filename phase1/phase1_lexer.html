@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+<title>cs152 Project Phase 1: Lexical Analyzer Generation</title>
+</head>
+
+<body>
+
+<h2><u>cs152 Project Phase 1: Lexical Analyzer Generation Using <i>flex</i></u></h2>
+
+<b><i><font size="+1">Due Date: </font></i>Wednesday, Jan 28, 2009 at
+11:59p.m.</b>
+<br>
+<br>
+<b><i><font size="+1">Grade Weight: </font></i>10% of total course grade</b><br>
+<br>
+<b>The project must be completed individually; you are not allowed to
+collaborate with your classmates. Any collaboration or code sharing 
+(including code submitted in past quarters) will be
+considered a violation of academic integrity and dealt with as set
+forth in the <a href="../index.html#integrity">academic integrity
+policy</a>.
+
+</b>
+<br>
+
+<h3>Overview</h3>
+
+<p>
+For this first part of the class project, you will use the <i>flex</i> tool to generate
+a lexical analyzer for a high-level source code language called "MINI-L".  The lexical analyzer
+should take as input a MINI-L program, parse it, and output the sequence of lexical tokens
+associated with the program.
+</p>
+
+<p>
+[<i>The MINI-L language is described in detail <a href="mini_l.html">here</a>.</i>] <br>
+[<i>The required output format for your lexical analyzer is described <a href="token_list_format.html">here</a>.</i>]
+</p>
+
+<hr>
+
+<h3>Flex</h3>
+
+<p>
+<i>Flex</i> is a tool for generating lexical analyzers.  Lexical analyzers scan text
+(a sequence of characters) and look for lexical patterns in the text.
+<i>Flex</i> requires an input file specifying a description for a lexical analyzer to
+generate.  From this description, <i>flex</i> will automatically create a C program
+for you (called <code>lex.yy.c</code>) that will perform the lexical analysis.
+</p>
+
+<p>
+In our department, <i>flex</i> is installed and can be used on machine "<i>bass</i>".
+</p>
+<p>
+[<i>A brief introduction to <i>flex</i> can be found <a href="http://www.cs.ucr.edu/~lgao/teaching/flex.html">here</a>.</i>]<br>
+[<i>The detailed manual for <i>flex</i> can be found <a href="http://flex.sourceforge.net/manual/">here</a>.</i>]
+</p>
+
+<hr>
+
+
+<h3>Detailed Requirements</h3>
+
+The following tasks will need to be performed to complete this phase of the project.
+
+<ol>
+<li> Write the specification for a <i>flex</i> lexical analyzer for the MINI-L language.
+For this phase of the project, your lexical analyzer need only output the list of tokens
+identified from an inputted MINI-L program.<br>
+Example: write the <i>flex</i> specification in a file named <code>mini_l.lex</code>.
+<li> Run <i>flex</i> to generate the lexical analyzer for MINI-L using your specification.<br>
+Example: execute the command <code>flex mini_l.lex</code>.  This will
+create a file called <code>lex.yy.c</code> in the current directory.
+<li> Compile your MINI-L lexical analyzer.  This will require the <code>-lfl</code> flag for <i>gcc</i>.<br>
+Example: compile your lexical analyzer into the executable <code>lexer</code>
+with the following command: <code>gcc -o lexer lex.yy.c -lfl</code>.  The program
+<code>lexer</code> should now be able to convert an inputted MINI-L program into the
+corresponding list of tokens. 
+</ol>
+
+<hr>
+
+
+<h3>Example Usage</h3>
+
+<p>
+Suppose your lexical analyzer is in the executable named <code>lexer</code>.  Then for
+the MINI-L program <a href="primes.min">primes.min</a>, your lexical analyzer should be
+invoked as follows:
+</p>
+
+<p>
+<code>cat primes.min  | lexer</code>
+</p>
+
+<p>
+The list of tokens outputted by your lexical analyzer should then appear as they do
+<a href="primes.tokens">here</a>.  The tokens can be printed to the screen (standard out).
+</p>
+
+<p>
+Another example: for program <a href="mytest.min">mytest.min</a>, the outputted tokens
+should look like <a href="mytest.tokens">this</a>.
+</p>
+
+<hr>
+
+<h3>Submission instructions</h3>
+
+<p>
+Submit via <a href="https://moodle.cs.ucr.edu/moodle/course/view.php?id=223">Moodle</a>.
+Turn in your source code and the Makefile (or a build script) in a .tar.gz
+or .zip file. Make sure you can uncompress and compile your submission
+on <i>bass</i>, otherwise your score for this project will be 0.
+
+</p>
+
+<hr>
+
+<h3>Extra credit for implementing your project in OCaml</h3>
+
+<p>If you implement this project in <a
+href="http://caml.inria.fr/ocaml/index.en.html">Objective Caml</a> (an
+ML variant that supports functional, object-oriented, and imperative programming)
+you will receive 10% extra credit on this project's score.</p>
+
+<p>
+Functional languages are an excellent choice for writing a compiler:
+they feature strong static typing, pattern matching, algebraic
+(variant) data types, parametric polymorphism, type inference,
+automatic garbage collection. These traits 
+permit rapid program development, and lead to a concise and elegant implementation.
+</p>
+
+<p>
+We have installed  
+OCaml on <i>bass</i>. It comes with its own lexer generator,
+<i>ocamllex</i> (similar to <i>flex</i>), and an impressive
+array of libraries.
+</p>
+
+<h4>OCaml resources</h4>
+<ul>
+<li><a href="http://caml.inria.fr/pub/docs/manual-ocaml/index.html">The OCaml manual</a>
+<li>Jason Hickey's <a href="http://mojave.caltech.edu/jyh/">book</a>
+</ul>
+
+
+<h4>Implementing the project in a functional language other than OCaml</h4>
+This might be possible, but check with the instructor first.
+
+<hr>
+
+<script language="JavaScript">
+          <!---//hide script from old browsers
+          var theDate = new Date(document.lastModified);
+	  var theLocalDate = theDate.toLocaleString();
+          document.write( "<i>Last updated: "+ theLocalDate +"</i>");
+          //end hiding contents --->
+</script> 
+
+</body>
+
+</html>

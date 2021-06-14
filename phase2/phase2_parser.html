@@ -1,0 +1,211 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+<title>cs152 Project Phase 2: Parser Generation</title>
+</head>
+
+<body>
+
+<h2><u>cs152 Project Phase 2: Parser Generation Using <i>bison</i></u></h2>
+
+<b><i><font size="+1">Due Date: </font></i>Wednesday, Feb 18, 2009 at
+11:59p.m.</b>
+<br>
+<br>
+<b><i><font size="+1">Grade Weight: </font></i>10% of total course grade</b><br>
+<br>
+<b>The project must be completed individually; you are not allowed to
+collaborate with your classmates. Any collaboration or code sharing 
+(including code submitted in past quarters) will be
+considered a violation of academic integrity and dealt with as set
+forth in the <a href="../index.html#integrity">academic integrity
+policy</a>.
+
+</b>
+<br>
+
+
+<h3>Overview</h3>
+
+<p>
+In the previous phase of the class project, you used the <i>flex</i> tool to create a
+lexical analyzer for the "MINI-L" programming language that reads in a MINI-L program
+(from a text file) and identifies the sequence of lexical tokens in the text file.
+In this phase of the class project, you will create a parser using the <i>bison</i>
+tool that will check to see whether the identified sequence of tokens adheres to the
+specified grammar of MINI-L.
+
+The output of your parser will be the list of productions used during the parsing
+process.  If any syntax errors are encountered during parsing, your parser
+should emit appropriate error messages.  Additionally, you will be required to submit
+the grammar for MINI-L that you will need to write before you can use <i>bison</i>.
+</p>
+
+<p>
+[<i>The MINI-L language is described in detail <a href="mini_l.html">here</a>.  Pay particular attention to the
+syntax diagrams <a href="syntax.html">here</a> that describe the appropriate structure of the various MINI-L statements.</i>] <br>
+[<i>The required output format for your parser is described <a href="production_rule_format.html">here</a>.</i>]
+</p>
+
+<hr>
+
+<h3>Bison</h3>
+
+<p>
+<i>Bison</i> is a tool for generating parsers.  Given a specified context-free grammar for a
+language, <i>bison</i> will automatically produce an LALR(1) bottom-up parser for that
+language.  The parser will ensure that a given sequence of tokens are ordered in such a way
+that they adhere to the specified grammar of the language.  If the tokens fail to parse
+properly, then appropriate syntax error messages are outputted.
+</p>
+
+<p>
+<i>Shift/Reduce and Reduce/Reduce conflicts:</i><br>
+When ambiguities exist in the specified grammar, <i>bison</i> will emit one or more
+<i>conflicts</i> when it is run.  These conflicts do not prevent <i>bison</i> from
+generating the parser from your specification, but they may unexpectedly affect how your parser
+behaves.  A shift/reduce conflict occurs when the parser may
+perform either a <i>shift</i> or a <i>reduce</i>.  A reduce/reduce conflict occurs when
+there are two or more production rules that apply to the same sequence of input tokens.
+In general, reduce/reduce conflicts indicate errors in the grammar (or at least serious
+ambiguities) and should be eliminated by modifying the grammar specification as needed.
+Shift/reduce conflicts, on the other hand, are more difficult to completely eliminate,
+especially when using the special "error" token provided by <i>bison</i> to handle
+errors.  Therefore, you should try to eliminate as many shift/reduce conflicts as you
+can, but some shift/reduce conflicts may remain as long as they do not adversely affect
+the behavior of your parser.  You can run <i>bison</i> with
+the <code>-v</code> option to generate an output file containing detailed information about
+each conflict.
+</p>
+
+<p>
+In our department, <i>bison</i> is installed and can be used on machine "<i>bass</i>".
+</p>
+<p>
+[<i>A brief introduction to <i>bison</i> can be found <a href="http://www.cs.ucr.edu/~lgao/teaching/bison.html">here</a>.</i>]<br>
+[<i>The detailed manual for <i>bison</i> can be found <a href="http://www.gnu.org/software/bison/manual/">here</a>.</i>]
+</p>
+
+<hr>
+
+
+<h3>Detailed Requirements</h3>
+
+The following tasks will need to be performed to complete this phase of the project.
+
+<ol>
+<li> First, you will need to write the grammar for the MINI-L language, based on the
+specification for MINI-L that we have provided for you.
+<font color="red">You must submit this grammar along with the other files required
+for this phase of the class project!</font>
+<li> Create the <i>bison</i> parser specification file using the MINI-L grammar.  Ensure
+that you specify helpful syntax error messages to be outputted by the parser in the
+event of any syntax errors.<br>
+Example: write the <i>bison</i> specification in a file named <code>mini_l.y</code>.
+<li> Run <i>bison</i> to generate the parser for MINI-L using your specification.
+The <code>-d</code> flag is necessary to create a <code>.h</code> file that will link
+your <i>flex</i> lexical analyzer and your <i>bison</i> parser.  The <code>-v</code>
+flag is helpful for creating an output file that can be used to analyze any conflicts
+in <i>bison</i>.  The <code>--file-prefix</code> option can be used to
+change the prefix of the file names outputted by <i>bison</i>. <br>
+Example: execute the command <code>bison -v -d --file-prefix=y mini_l.y</code>.  This will
+create the parser in a file called <code>y.tab.c</code>, the necessary <code>.h</code> file
+called <code>y.tab.h</code>, and the informative output file called <code>y.output</code>.
+<li> Ensure that your MINI-L lexical analyzer from the first phase of the class project
+has been constructed. <br>
+Example: if your lexical analyzer specification is in a file called <code>mini_l.lex</code>, then
+use it with <i>flex</i> as follows: <code>flex mini_l.lex</code>.  This will create the
+lexical analyzer in a file called <code>lex.yy.c</code>.
+<li> Compile everything together into a single executable. <br>
+Example: compile your parser into the executable <code>parser</code>
+with the following command: <code>gcc -o parser y.tab.c lex.yy.c -lfl</code>.
+The program <code>parser</code> should now be available for use.
+</ol>
+
+<hr>
+
+
+<h3>Example Usage</h3>
+
+<p>
+Suppose your parser is in the executable named <code>parser</code>.  Then for
+the MINI-L program <a href="primes.min">primes.min</a>, your parser should be
+invoked as follows:
+</p>
+
+<p>
+<code>cat primes.min  | parser</code>
+</p>
+
+<p>
+The list of productions taken by your parser during parsing should then be printed to the screen.
+As one example, the output might look like <a href="primes.parse">this</a> (you do not
+need to number each production or label each non-terminal with the corresponding production number).
+However, your output may be different due to different productions in your specification.  The most
+important thing is that your parser should <i>not</i> output any syntax errors for
+syntactically correct programs, and your parser <i>should</i> output helpful syntax error
+messages (for at least the first syntax error) whenever syntax errors do exist in the
+inputted MINI-L program.
+</p>
+
+<hr>
+
+<h3>Submission instructions</h3>
+
+<p>
+Submit via <a href="https://moodle.cs.ucr.edu/moodle/course/view.php?id=223">Moodle</a>.
+Turn in your source code and the Makefile (or a build script) in a .tar.gz
+or .zip file. Make sure you can uncompress and compile your submission
+on <i>bass</i>, otherwise your score for this project will be 0.
+
+</p>
+
+<hr>
+
+<h3>Extra credit for implementing your project in OCaml</h3>
+
+<p>Similar to project 1, if you implement this project in <a
+href="http://caml.inria.fr/ocaml/index.en.html">Objective Caml</a> (an
+ML variant that supports functional, object-oriented, and imperative programming)
+you will receive 10% extra credit on this project's score.</p>
+
+<p>
+We have installed  
+OCaml on <i>bass</i>. It comes with its own parser generator,
+<i>ocamlyacc</i> (similar to <i>bison</i>), and an impressive
+array of libraries.
+</p>
+
+<p>If you are having technical difficulties with OCaml, contact the
+instructor. TA's do not have time and resources to help students with
+the OCaml implementation.
+</p>
+
+
+<h4>OCaml resources</h4>
+<ul>
+<li><a href="http://caml.inria.fr/pub/docs/manual-ocaml/index.html">The OCaml manual</a>
+<li>Jason Hickey's <a href="http://mojave.caltech.edu/jyh/">book</a>
+</ul>
+
+
+<h4>Implementing the project in a functional language other than OCaml</h4>
+This might be possible, but check with the instructor first.
+
+<hr>
+
+<script language="JavaScript">
+          <!---//hide script from old browsers
+          var theDate = new Date(document.lastModified);
+	  var theLocalDate = theDate.toLocaleString();
+          document.write( "<i>Last updated: "+ theLocalDate +"</i>");
+          //end hiding contents --->
+</script> 
+
+
+
+</body>
+
+</html>

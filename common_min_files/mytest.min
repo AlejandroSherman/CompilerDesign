@@ -1,0 +1,34 @@
+function main;
+beginparams
+endparams
+
+beginlocals
+
+  n : integer;
+  i, j, k: integer;
+  t : array [20] of integer;
+
+endlocals
+
+beginbody	## main program
+
+  read i, j;
+
+  k := 0;
+  n := 20;
+  
+  do 
+    beginloop
+      t[k] := k;
+      k := k + 1;
+      if k % 2 == 0 then
+        write t[k-1];
+      endif; 
+
+      if k >= n then
+        break;
+      endif;
+    endloop
+  while true;
+
+endbody
